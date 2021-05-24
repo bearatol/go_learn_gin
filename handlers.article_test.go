@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -30,4 +31,13 @@ func TestShowIndexPageUnauthenticated(t *testing.T) {
 
 		return statusOK && pageOK
 	})
+}
+
+func getArticleByID(id int) (*article, error) {
+	for _, a := range articleList {
+		if a.ID == id {
+			return &a, nil
+		}
+	}
+	return nil, errors.New("Article not found")
 }
